@@ -2,6 +2,8 @@
 
 namespace NotificationChannels\CmComWhatsApp;
 
+use CMText\Channels;
+use CMText\Message;
 use CMText\TextClient;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\CmComWhatsApp\Types\PlainTextMessageType;
@@ -23,6 +25,7 @@ class CmComWhatsAppChannel
      * @param mixed $notifiable
      * @param \Illuminate\Notifications\Notification $notification
      *
+     * @return \CMText\TextClientResult|void
      * @throws \CMText\Exceptions\MessagesLimitException
      * @throws \CMText\Exceptions\RecipientLimitException
      */
@@ -34,7 +37,8 @@ class CmComWhatsAppChannel
 
         /** @var PlainTextMessageType $message */
         $message = $notification->toCmwa($notifiable);
-
-        $this->client->sendMessage($message->text, $message->from, $message->to, $message->reference);
+        $messages = [(new Message($message->text, $message->from, $message->to, $message->reference))
+            ->WithChannels([Channels::WHATSAPP])];
+        return $this->client->send($messages);
     }
 }
