@@ -2,12 +2,10 @@
 
 namespace NotificationChannels\CmComWhatsApp;
 
-use CMText\MessageBody;
-
 class CmComWhatsAppMessage
 {
     /**
-     * @var MessageBody
+     * @var string
      */
     public $text;
 
@@ -29,12 +27,12 @@ class CmComWhatsAppMessage
     public $from;
 
     /**
-     * @param MessageBody $text
+     * @param string $text
      * @param array $to
      * @param string $from
      * @param string|null $reference
      */
-    public function __construct(MessageBody $text, array $to, string $from, string $reference = null)
+    public function __construct(string $text, array $to, string $from, string $reference = null)
     {
         $this->text = $text;
         $this->to = $to;
