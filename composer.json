@@ -27,6 +27,13 @@
             "NotificationChannels\\CmComWhatsApp\\": "src"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "NotificationChannels\\CmComWhatsApp\\CmComWhatsAppServiceProvider"
+            ]
+        }
+    },
     "autoload-dev": {
         "psr-4": {
             "NotificationChannels\\CmComWhatsApp\\Test\\": "tests"
