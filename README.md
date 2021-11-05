@@ -84,12 +84,12 @@ class VpsServerOrdered extends Notification
 ```
 
 
-In order to let your Notification know which phone number you are targeting, add the `routeNotificationForCmswa` method to your Notifiable model.
+In order to let your Notification know which phone number you are targeting, add the `routeNotificationForCmwa` method to your Notifiable model.
 
 **Important note**: the recipients phone number have to be in international format. For instance: 0031612345678
 
 ```php
-public function routeNotificationForCmswa()
+public function routeNotificationForCmwa()
 {
     return '0031612345678';
 }
