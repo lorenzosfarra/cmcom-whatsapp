@@ -4,6 +4,7 @@ namespace NotificationChannels\CmComWhatsApp\Types;
 
 class PlainTextMessageType
 {
+
     /**
      * @var string
      */

@@ -2,29 +2,12 @@
 
 namespace NotificationChannels\CmComWhatsApp;
 
-class CmComWhatsAppMessage
+use NotificationChannels\CmComWhatsApp\Types\RichContentMessageMediaSubtype;
+use NotificationChannels\CmComWhatsApp\Types\RichContentMessageReplySuggestionSubtype;
+use NotificationChannels\CmComWhatsApp\Types\RichContentMessageType;
+
+class CmComWhatsAppMessage extends RichContentMessageType
 {
-    /**
-     * @var string
-     */
-    public $text;
-
-    /**
-     * @var string Reference for message lookup and identification
-     */
-    public $reference;
-
-    /**
-     * @var array List of Recipients
-     * @note Twitter requires the snowflake-id
-     */
-    public $to = [];
-
-    /**
-     * @var string Sender name
-     * @note Twitter requires the snowflake-id of the account you want to use as sender
-     */
-    public $from;
 
     /**
      * @param string $text
@@ -43,5 +26,21 @@ class CmComWhatsAppMessage
     public function addTo(string $to)
     {
         $this->to[] = $to;
+    }
+
+    /**
+     * @param RichContentMessageMediaSubtype $media
+     */
+    public function addMediaContent(RichContentMessageMediaSubtype $media)
+    {
+        $this->media_content = $media;
+    }
+
+    /**
+     * @param RichContentMessageReplySuggestionSubtype[] $suggestedReplies
+     */
+    public function addSuggestedReply(array $suggestedReplies)
+    {
+        $this->reply_suggestions = $suggestedReplies;
     }
 }

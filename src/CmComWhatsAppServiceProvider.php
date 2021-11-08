@@ -15,21 +15,6 @@ class CmComWhatsAppServiceProvider extends ServiceProvider
     {
         // Bootstrap code here.
 
-        /**
-         * Here's some example code we use for the pusher package.
-         *
-         * $this->app->when(HipChatChannel::class)
-         * ->needs(HipChat::class)
-         * ->give(function () {
-         * return new HipChat(
-         * new HttpClient,
-         * config('services.hipchat.url'),
-         * config('services.hipchat.token'),
-         * config('services.hipchat.room')
-         * );
-         * });
-         */
-
         $this->app->when(CmComWhatsAppChannel::class)
             ->needs(TextClient::class)
             ->give(function () {
@@ -38,6 +23,5 @@ class CmComWhatsAppServiceProvider extends ServiceProvider
                 }
                 return new TextClient($productToken);
             });
-
     }
 }
