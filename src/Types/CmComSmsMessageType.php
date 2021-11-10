@@ -8,7 +8,7 @@ use NotificationChannels\CmComSmsWhatsApp\Interfaces\SendableMessageInterface;
 /**
  * SMS Message type
  */
-class CmComSmsMessageTypeType extends CmComBaseMessageType implements SendableMessageInterface
+class CmComSmsMessageType extends CmComBaseMessageType implements SendableMessageInterface
 {
     /**
      * @inheritDoc

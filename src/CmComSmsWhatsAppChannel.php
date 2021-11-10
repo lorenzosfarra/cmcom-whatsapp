@@ -10,8 +10,8 @@ use CMText\RichContent\Messages\MediaMessage;
 use CMText\TextClient;
 use CMText\TextClientResult;
 use Illuminate\Notifications\Notification;
-use NotificationChannels\CmComSmsWhatsApp\Types\CmComSmsMessageTypeType;
-use NotificationChannels\CmComSmsWhatsApp\Types\CmComSmsWhatsAppMessageType;
+use NotificationChannels\CmComSmsWhatsApp\Types\CmComSmsMessageType;
+use NotificationChannels\CmComSmsWhatsApp\Types\CmComWhatsAppMessageType;
 use NotificationChannels\CmComSmsWhatsApp\Types\RichContentMessageMediaSubtype;
 use NotificationChannels\CmComSmsWhatsApp\Types\RichContentMessageType;
 
@@ -43,12 +43,12 @@ class CmComSmsWhatsAppChannel
             return;
         }
 
-        /** @var CmComSmsMessageTypeType|CmComSmsWhatsAppMessageType $notification_message */
+        /** @var CmComSmsMessageType|CmComWhatsAppMessageType $notification_message */
         $notification_message = $notification->toCmsmswa($notifiable);
 
         $messages = [];
         $message = new Message($notification_message->text, $notification_message->from, $notification_message->to, $notification_message->reference);
-        if ($notification_message instanceof CmComSmsWhatsAppMessageType) {
+        if ($notification_message instanceof CmComWhatsAppMessageType) {
             if ($notification_message->hasMediaContent()) {
                 $message = $this->addMediaMessage($message, $notification_message);
             }

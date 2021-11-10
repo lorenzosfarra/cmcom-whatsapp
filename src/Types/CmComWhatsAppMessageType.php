@@ -8,7 +8,7 @@ use NotificationChannels\CmComSmsWhatsApp\Interfaces\SendableMessageInterface;
 /**
  * WhatsApp Message type
  */
-class CmComSmsWhatsAppMessageType extends RichContentMessageType implements SendableMessageInterface
+class CmComWhatsAppMessageType extends RichContentMessageType implements SendableMessageInterface
 {
     /**
      * @param RichContentMessageMediaSubtype $media
