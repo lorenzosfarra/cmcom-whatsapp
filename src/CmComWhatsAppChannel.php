@@ -83,9 +83,6 @@ class CmComWhatsAppChannel
      */
     private function addReplySuggestions(Message $message, RichContentMessageType $notification_message): Message
     {
-        if (is_null($notification_message->reply_suggestions)) {
-            return $message;
-        }
         /** @var RichContentMessageReplySuggestionSubtype[] $reply_suggestions */
         $reply_suggestions = $notification_message->reply_suggestions;
         $reply_suggestions_array = array_map(function (RichContentMessageReplySuggestionSubtype $reply_suggestion) {
