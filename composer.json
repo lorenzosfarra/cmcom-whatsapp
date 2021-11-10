@@ -1,7 +1,7 @@
 {
     "name": "laravel-notification-channels/cmcom-whatsapp",
     "description": "Cm.com | WhatsApp Business",
-    "version": "0.9",
+    "version": "1.0",
     "homepage": "https://github.com/laravel-notification-channels/cmcom-whatsapp",
     "license": "MIT",
     "authors": [
@@ -24,19 +24,19 @@
     },
     "autoload": {
         "psr-4": {
-            "NotificationChannels\\CmComWhatsApp\\": "src"
+            "NotificationChannels\\CmComSmsWhatsApp\\": "src"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "NotificationChannels\\CmComWhatsApp\\CmComWhatsAppServiceProvider"
+              "CmComSmsWhatsAppServiceProvider"
             ]
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "NotificationChannels\\CmComWhatsApp\\Test\\": "tests"
+            "NotificationChannels\\CmComSmsWhatsApp\\Test\\": "tests"
         }
     },
     "scripts": {

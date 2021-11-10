@@ -1,6 +1,6 @@
 <?php
 
-namespace NotificationChannels\CmComWhatsApp\Test;
+namespace NotificationChannels\CmComSmsWhatsApp\Test;
 
 use PHPUnit\Framework\TestCase;
 

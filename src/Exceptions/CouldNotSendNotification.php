@@ -1,6 +1,6 @@
 <?php
 
-namespace NotificationChannels\CmComWhatsApp\Exceptions;
+namespace NotificationChannels\CmComSmsWhatsApp\Exceptions;
 
 class CouldNotSendNotification extends \Exception
 {

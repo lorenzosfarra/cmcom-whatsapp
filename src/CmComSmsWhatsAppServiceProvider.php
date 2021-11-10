@@ -1,12 +1,12 @@
 <?php
 
-namespace NotificationChannels\CmComWhatsApp;
+namespace NotificationChannels\CmComSmsWhatsApp;
 
 use CMText\TextClient;
 use Illuminate\Support\ServiceProvider;
-use NotificationChannels\CmComWhatsApp\Exceptions\InvalidConfiguration;
+use NotificationChannels\CmComSmsWhatsApp\Exceptions\InvalidConfiguration;
 
-class CmComWhatsAppServiceProvider extends ServiceProvider
+class CmComSmsWhatsAppServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap the application services.
@@ -14,11 +14,10 @@ class CmComWhatsAppServiceProvider extends ServiceProvider
     public function boot()
     {
         // Bootstrap code here.
-
-        $this->app->when(CmComWhatsAppChannel::class)
+        $this->app->when(CmComSmsWhatsAppChannel::class)
             ->needs(TextClient::class)
             ->give(function () {
-                if (is_null($productToken = config('services.cmcomwhatsapp.product_token'))) {
+                if (is_null($productToken = config('services.cmcomsmswhatsapp.product_token'))) {
                     throw InvalidConfiguration::configurationNotSet();
                 }
                 return new TextClient($productToken);

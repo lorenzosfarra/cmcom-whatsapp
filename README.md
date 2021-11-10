@@ -11,7 +11,7 @@ Please see [this repo](https://github.com/laravel-notification-channels/channels
 [![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/laravel-notification-channels/cmcom-whatsapp/master.svg?style=flat-square)](https://scrutinizer-ci.com/g/laravel-notification-channels/cmcom-whatsapp/?branch=master)
 [![Total Downloads](https://img.shields.io/packagist/dt/laravel-notification-channels/cmcom-whatsapp.svg?style=flat-square)](https://packagist.org/packages/laravel-notification-channels/cmcom-whatsapp)
 
-This package makes it easy to send notifications using [CmComWhatsApp](link to service) with Laravel 5.5+, 6.x and 7.x
+This package makes it easy to send notifications using [CmComSmsWhatsApp](link to service) with Laravel 5.5+, 6.x and 7.x
 
 **Note:** Replace ```:style_ci_id``` ```:sensio_labs_id``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](CONTRIBUTING.md), [LICENSE.md](LICENSE.md), [composer.json](composer.json) and other files, then delete this line.
 **Tip:** Use "Find in Path/Files" in your code editor to find these keywords within the package directory and replace all occurences with your specified term.
@@ -23,7 +23,7 @@ This is where your description should go. Add a little code example so build can
 ## Contents
 
 - [Installation](#installation)
-	- [Setting up the CmComWhatsApp service](#setting-up-the-CmComWhatsApp-service)
+	- [Setting up the CmComSmsWhatsApp service](#setting-up-the-CmComSmsWhatsApp-service)
 - [Usage](#usage)
 	- [Available Message methods](#available-message-methods)
 - [Changelog](#changelog)
@@ -42,18 +42,18 @@ You can install the service provider for Laravel 5.4 and below:
 // config/app.php
 'providers' => [
     ...
-    NotificationChannels\CmComWhatsApp\CmComWhatsAppServiceProvider::class,
+    NotificationChannels\CmComSmsWhatsApp\CmComSmsWhatsAppServiceProvider::class,
 ],
 ```
 
-### Setting up the CmComWhatsApp service
+### Setting up the CmComSmsWhatsApp service
 
 Add your CM.com Product Token and default originator (name or number of sender) to your `config/services.php`:
 
 ```php
 // config/services.php
 ...
-'cmcomwhatsapp' => [
+'cmcomsmswhatsapp' => [
     'product_token' => env('CMSMS_PRODUCT_TOKEN'),
     'originator' => env('CMSMS_ORIGINATOR'),
 ],
@@ -65,31 +65,31 @@ Add your CM.com Product Token and default originator (name or number of sender) 
 Now you can use the channel in your `via()` method inside the notification:
 
 ``` php
-use NotificationChannels\CmComWhatsApp\CmComWhatsAppChannel;
-use NotificationChannels\CmComWhatsApp\CmComWhatsAppMessage;
+use NotificationChannels\CmComSmsWhatsApp\CmComSmsWhatsAppChannel;
+use NotificationChannels\CmComSmsWhatsApp\CmComSmsWhatsAppMessage;
 use Illuminate\Notifications\Notification;
 
 class VpsServerOrdered extends Notification
 {
     public function via($notifiable)
     {
-        return [CmComWhatsAppChannel::class];
+        return [CmComSmsWhatsAppChannel::class];
     }
 
-    public function toCmwa($notifiable)
+    public function toCmsmswa($notifiable)
     {
-        return CmComWhatsAppMessage(MessageBody('test', ['003938283932'], '003993038293'))
+        return CmComSmsWhatsAppMessage(MessageBody('test', ['003938283932'], '003993038293'))
     }
 }
 ```
 
 
-In order to let your Notification know which phone number you are targeting, add the `routeNotificationForCmwa` method to your Notifiable model.
+In order to let your Notification know which phone number you are targeting, add the `routeNotificationForCmsmswa` method to your Notifiable model.
 
 **Important note**: the recipients phone number have to be in international format. For instance: 0031612345678
 
 ```php
-public function routeNotificationForCmwa()
+public function routeNotificationForCmsmswa()
 {
     return '0031612345678';
 }
