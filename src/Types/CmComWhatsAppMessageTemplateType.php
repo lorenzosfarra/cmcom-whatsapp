@@ -33,8 +33,9 @@ class CmComWhatsAppMessageTemplateType extends PlainTextMessageType implements S
      */
     public $parameters;
 
-    public function __construct(string $templateId, string $namespace, string $languageCode)
+    public function __construct(string $from, array $to, string $text, string $templateId, string $namespace, string $languageCode)
     {
+        parent::__construct($from, $to, $text);
         $this->templateId = $templateId;
         $this->namespace = $namespace;
         $this->languageCode = $languageCode;
