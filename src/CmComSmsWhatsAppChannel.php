@@ -18,7 +18,7 @@ use Illuminate\Notifications\Notification;
 use NotificationChannels\CmComSmsWhatsApp\Types\CmComSmsMessageType;
 use NotificationChannels\CmComSmsWhatsApp\Types\CmComWhatsAppMessageTemplateType;
 use NotificationChannels\CmComSmsWhatsApp\Types\CmComWhatsAppMessageType;
-use NotificationChannels\CmComSmsWhatsApp\Types\RichContentMessageMediaSubtype;
+use NotificationChannels\CmComSmsWhatsApp\Types\Subtypes\RichContentMessageMediaSubtype;
 use NotificationChannels\CmComSmsWhatsApp\Types\RichContentMessageType;
 
 class CmComSmsWhatsAppChannel
