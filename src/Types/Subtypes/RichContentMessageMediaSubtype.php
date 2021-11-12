@@ -1,6 +1,6 @@
 <?php
 
-namespace NotificationChannels\CmComSmsWhatsApp\Types;
+namespace NotificationChannels\CmComSmsWhatsApp\Types\Subtypes;
 
 class RichContentMessageMediaSubtype
 {

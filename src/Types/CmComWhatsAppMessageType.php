@@ -4,6 +4,7 @@ namespace NotificationChannels\CmComSmsWhatsApp\Types;
 
 use CMText\Channels;
 use NotificationChannels\CmComSmsWhatsApp\Interfaces\SendableMessageInterface;
+use NotificationChannels\CmComSmsWhatsApp\Types\Subtypes\RichContentMessageMediaSubtype;
 
 /**
  * WhatsApp Message type

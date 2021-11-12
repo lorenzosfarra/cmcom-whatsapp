@@ -5,12 +5,18 @@ namespace NotificationChannels\CmComSmsWhatsApp;
 use CMText\Exceptions\ConversationLimitException;
 use CMText\Exceptions\MessagesLimitException;
 use CMText\Exceptions\RecipientLimitException;
+use CMText\Exceptions\WhatsappTemplateComponentParameterTypeException;
 use CMText\Message;
 use CMText\RichContent\Messages\MediaMessage;
+use CMText\RichContent\Messages\TemplateMessage;
+use CMText\RichContent\Templates\Whatsapp\ComponentBody;
+use CMText\RichContent\Templates\Whatsapp\Language;
+use CMText\RichContent\Templates\Whatsapp\WhatsappTemplate;
 use CMText\TextClient;
 use CMText\TextClientResult;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\CmComSmsWhatsApp\Types\CmComSmsMessageType;
+use NotificationChannels\CmComSmsWhatsApp\Types\CmComWhatsAppMessageTemplateType;
 use NotificationChannels\CmComSmsWhatsApp\Types\CmComWhatsAppMessageType;
 use NotificationChannels\CmComSmsWhatsApp\Types\RichContentMessageMediaSubtype;
 use NotificationChannels\CmComSmsWhatsApp\Types\RichContentMessageType;
@@ -36,6 +42,7 @@ class CmComSmsWhatsAppChannel
      * @throws ConversationLimitException
      * @throws MessagesLimitException
      * @throws RecipientLimitException
+     * @throws WhatsappTemplateComponentParameterTypeException
      */
     public function send($notifiable, Notification $notification)
     {
@@ -52,6 +59,15 @@ class CmComSmsWhatsAppChannel
             if ($notification_message->hasMediaContent()) {
                 $message = $this->addMediaMessage($message, $notification_message);
             }
+        } else if ($notification_message instanceof CmComWhatsAppMessageTemplateType) {
+            $template = new WhatsappTemplate($notification_message->templateId, $notification_message->namespace, new Language($notification_message->languageCode));
+            $components = [];
+            if ($notification_message->hasParameters()) {
+                $components[] = new ComponentBody($notification_message->parameters);
+            }
+            // TODO: check component HEADER!
+            $template->addComponents($components);
+            $message->WithTemplate(new TemplateMessage($template));
         }
         $messages[] = $message->WithChannels([$notification_message->getMessageAppChannel()]);
 

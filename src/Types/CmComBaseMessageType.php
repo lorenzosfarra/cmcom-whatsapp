@@ -2,7 +2,7 @@
 
 namespace NotificationChannels\CmComSmsWhatsApp\Types;
 
-class CmComBaseMessageType extends PlainTextMessageType
+class CmComBaseMessageType extends PlainTextWithReferenceMessageType
 {
 
     /**

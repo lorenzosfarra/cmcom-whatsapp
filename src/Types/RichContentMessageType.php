@@ -2,10 +2,10 @@
 
 namespace NotificationChannels\CmComSmsWhatsApp\Types;
 
-class RichContentMessageType extends PlainTextMessageType
+class RichContentMessageType extends PlainTextWithReferenceMessageType
 {
     /*
-     * @var RichContentMessageMediaSubtype|null $media_content
+     * @var \NotificationChannels\CmComSmsWhatsApp\Types\Subtypes\RichContentMessageMediaSubtype|null $media_content
      */
     public $media_content = null;
 
