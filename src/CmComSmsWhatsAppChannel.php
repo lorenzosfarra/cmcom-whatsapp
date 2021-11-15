@@ -15,6 +15,7 @@ use CMText\RichContent\Templates\Whatsapp\WhatsappTemplate;
 use CMText\TextClient;
 use CMText\TextClientResult;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Log;
 use NotificationChannels\CmComSmsWhatsApp\Types\CmComSmsMessageType;
 use NotificationChannels\CmComSmsWhatsApp\Types\CmComWhatsAppMessageTemplateType;
 use NotificationChannels\CmComSmsWhatsApp\Types\CmComWhatsAppMessageType;
@@ -54,13 +55,13 @@ class CmComSmsWhatsAppChannel
         $notification_message = $notification->toCmsmswa($notifiable);
 
         $messages = [];
-        $message = new Message($notification_message->text, $notification_message->from, $notification_message->to, $notification_message->reference);
+        $message = new Message($notification_message->text, $notification_message->from, $notification_message->to, $notification_message->reference ?? null);
         if ($notification_message instanceof CmComWhatsAppMessageType) {
             if ($notification_message->hasMediaContent()) {
                 $message = $this->addMediaMessage($message, $notification_message);
             }
         } else if ($notification_message instanceof CmComWhatsAppMessageTemplateType) {
-            $template = new WhatsappTemplate($notification_message->templateId, $notification_message->namespace, new Language($notification_message->languageCode));
+            $template = new WhatsappTemplate($notification_message->namespace, $notification_message->templateId, new Language($notification_message->languageCode));
             $components = [];
             if ($notification_message->hasParameters()) {
                 $components[] = new ComponentBody($notification_message->parameters);
@@ -69,9 +70,12 @@ class CmComSmsWhatsAppChannel
             $template->addComponents($components);
             $message->WithTemplate(new TemplateMessage($template));
         }
+        Log::debug(json_encode($message));
         $messages[] = $message->WithChannels([$notification_message->getMessageAppChannel()]);
 
-        return $this->client->send($messages);
+        $result = $this->client->send($messages);
+        Log::info(json_encode($result));
+        return $result;
     }
 
     /**
