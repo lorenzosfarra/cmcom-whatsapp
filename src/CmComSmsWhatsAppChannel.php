@@ -10,6 +10,9 @@ use CMText\Message;
 use CMText\RichContent\Messages\MediaMessage;
 use CMText\RichContent\Messages\TemplateMessage;
 use CMText\RichContent\Templates\Whatsapp\ComponentBody;
+use CMText\RichContent\Templates\Whatsapp\ComponentButtonUrl;
+use CMText\RichContent\Templates\Whatsapp\ComponentFooter;
+use CMText\RichContent\Templates\Whatsapp\ComponentParameterText;
 use CMText\RichContent\Templates\Whatsapp\Language;
 use CMText\RichContent\Templates\Whatsapp\WhatsappTemplate;
 use CMText\TextClient;
@@ -66,6 +69,7 @@ class CmComSmsWhatsAppChannel
             if ($notification_message->hasParameters()) {
                 $components[] = new ComponentBody($notification_message->parameters);
             }
+            $components[] = new ComponentButtonUrl(0, new ComponentParameterText("prova123"));
             // TODO: check component HEADER!
             $template->addComponents($components);
             $message->WithTemplate(new TemplateMessage($template));

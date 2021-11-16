@@ -1,7 +1,7 @@
 {
     "name": "laravel-notification-channels/cmcom-whatsapp",
     "description": "Cm.com | WhatsApp Business",
-    "version": "1.8",
+    "version": "1.9",
     "homepage": "https://github.com/laravel-notification-channels/cmcom-whatsapp",
     "license": "MIT",
     "authors": [
@@ -13,7 +13,7 @@
         }
     ],
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.4",
         "cmdotcom/text-sdk-php": "^2.1",
         "illuminate/notifications": "~6.0 || ~7.0 || ~8.0",
         "illuminate/support": "~6.0 || ~7.0 || ~8.0",
