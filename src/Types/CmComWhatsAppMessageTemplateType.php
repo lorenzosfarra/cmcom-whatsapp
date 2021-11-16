@@ -6,6 +6,7 @@ use CMText\Channels;
 use CMText\RichContent\Templates\Whatsapp\ComponentParameterBase;
 use NotificationChannels\CmComSmsWhatsApp\Interfaces\SendableMessageInterface;
 use NotificationChannels\CmComSmsWhatsApp\Types\Subtypes\TemplateMessageParameterSubtype;
+use NotificationChannels\CmComSmsWhatsApp\Types\Subtypes\WhatsAppTemplateParameters;
 
 /**
  * WhatsApp Message type
@@ -16,22 +17,22 @@ class CmComWhatsAppMessageTemplateType extends PlainTextMessageType implements S
     /**
      * @var string
      */
-    public $languageCode;
+    public string $languageCode;
 
     /**
      * @var string
      */
-    public $templateId;
+    public string $templateId;
 
     /**
      * @var string
      */
-    public $namespace;
+    public string $namespace;
 
     /**
-     * @var ComponentParameterBase[]
+     * @var WhatsAppTemplateParameters|null
      */
-    public $parameters;
+    public ?WhatsAppTemplateParameters $parameters;
 
     public function __construct(string $from, array $to, string $text, string $templateId, string $namespace, string $languageCode)
     {
@@ -39,6 +40,7 @@ class CmComWhatsAppMessageTemplateType extends PlainTextMessageType implements S
         $this->templateId = $templateId;
         $this->namespace = $namespace;
         $this->languageCode = $languageCode;
+        $this->parameters = null;
     }
 
     /**
@@ -53,20 +55,20 @@ class CmComWhatsAppMessageTemplateType extends PlainTextMessageType implements S
      * Add a text template parameter, which will be sent to the WhatsApp template.
      * @throws \Exception
      */
-    public function addTextParameter(string $name, string $value): void
+    public function addTextBodyParameter(string $name, string $value): void
     {
-        $this->addParameter(new TemplateMessageParameterSubtype($name, $value, TemplateMessageParameterSubtype::TEXT));
+        $this->addBodyParameter(new TemplateMessageParameterSubtype($name, $value, TemplateMessageParameterSubtype::TEXT));
     }
 
     /**
      * Add a currency template parameter, which will be sent to the WhatsApp template.
      * @throws \Exception
      */
-    public function addCurrencyParameter(string $name, string $value, string $isoCode): void
+    public function addCurrencyBodyParameter(string $name, string $value, string $isoCode): void
     {
         $parameter = new TemplateMessageParameterSubtype($name, $value, TemplateMessageParameterSubtype::CURRENCY);
         $parameter->setCurrency($isoCode);
-        $this->addParameter($parameter);
+        $this->addBodyParameter($parameter);
     }
 
     /**
@@ -74,29 +76,52 @@ class CmComWhatsAppMessageTemplateType extends PlainTextMessageType implements S
      *
      * @throws \Exception
      */
-    public function addDateTimeParameter(string $name, string $value): void
+    public function addDateTimeBodyParameter(string $name, string $value): void
     {
-        $this->addParameter(new TemplateMessageParameterSubtype($name, $value, TemplateMessageParameterSubtype::DATETIME));
+        $this->addBodyParameter(new TemplateMessageParameterSubtype($name, $value, TemplateMessageParameterSubtype::DATETIME));
+    }
+
+    public function addCtaParameter(string $cta): void
+    {
+        $this->setUpParameters();
+        if (!$this->hasCtasParameters()) {
+            $this->parameters->setCtas([]);
+        }
+        $this->parameters->addCtaParameter($cta);
+    }
+
+    public function hasBodyParameters(): bool
+    {
+        return !is_null($this->parameters) && is_array($this->parameters->getBody()) && count($this->parameters->getBody()) > 0;
+    }
+
+    public function hasCtasParameters(): bool
+    {
+        return !is_null($this->parameters) && is_array($this->parameters->getCtas()) && count($this->parameters->getBody()) > 0;
+    }
+
+    public function setBodyParameters(array $parameters): void
+    {
+        $this->parameters->setBody($parameters);
     }
 
     /**
      * Add a generic parameter, which will be sent to the WhatsApp template.
      * @throws \Exception
      */
-    private function addParameter(TemplateMessageParameterSubtype $parameter) {
-        if (!$this->hasParameters()) {
-            $this->parameters = [];
+    private function addBodyParameter(TemplateMessageParameterSubtype $parameter)
+    {
+        $this->setUpParameters();
+        if (!$this->hasBodyParameters()) {
+            $this->parameters->setBody([]);
         }
-        $this->parameters[] = $parameter->toVariableValueObject();
+        $this->parameters->addBodyParameter($parameter->toVariableValueObject());
     }
 
-    public function hasParameters(): bool
+    private function setUpParameters(): void
     {
-        return isset($this->parameters) && count($this->parameters) > 0;
-    }
-
-    public function setParameters(array $parameters): void
-    {
-        $this->parameters = $parameters;
+        if (is_null($this->parameters)) {
+            $this->parameters = new WhatsAppTemplateParameters();
+        }
     }
 }

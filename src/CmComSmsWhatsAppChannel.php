@@ -66,10 +66,15 @@ class CmComSmsWhatsAppChannel
         } else if ($notification_message instanceof CmComWhatsAppMessageTemplateType) {
             $template = new WhatsappTemplate($notification_message->namespace, $notification_message->templateId, new Language($notification_message->languageCode));
             $components = [];
-            if ($notification_message->hasParameters()) {
-                $components[] = new ComponentBody($notification_message->parameters);
+            if ($notification_message->hasBodyParameters()) {
+                $components[] = new ComponentBody($notification_message->parameters->getBody());
             }
-            $components[] = new ComponentButtonUrl(0, new ComponentParameterText("prova123"));
+            if ($notification_message->hasCtasParameters()) {
+                $ctas = $notification_message->parameters->getCtas();
+                for ($iterator = 0; $iterator < count($ctas); $iterator++) {
+                    $components[] = new ComponentButtonUrl($iterator, new ComponentParameterText($ctas[$iterator]));
+                }
+            }
             // TODO: check component HEADER!
             $template->addComponents($components);
             $message->WithTemplate(new TemplateMessage($template));

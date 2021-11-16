@@ -42,12 +42,22 @@ class WhatsAppTemplateParameters
         $this->ctas = $ctas;
     }
 
+    public function addCtaParameter(string $cta): void
+    {
+        $this->ctas[] = $cta;
+    }
+
     /**
      * @return ComponentParameterBase[]|null
      */
     public function getBody(): ?array
     {
         return $this->body;
+    }
+
+    public function addBodyParameter(ComponentParameterBase $param): void
+    {
+        $this->body[] = $param;
     }
 
     /**
