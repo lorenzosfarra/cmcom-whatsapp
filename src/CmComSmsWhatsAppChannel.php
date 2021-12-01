@@ -69,7 +69,7 @@ class CmComSmsWhatsAppChannel
             $components = [];
             if ($notification_message->hasHeaderImage()) {
                 $image = $notification_message->parameters->getHeaderImage();
-                $components[] = new ComponentHeader($image);
+                $components[] = new ComponentHeader([$image]);
             }
             if ($notification_message->hasBodyParameters()) {
                 $components[] = new ComponentBody($notification_message->parameters->getBody());
