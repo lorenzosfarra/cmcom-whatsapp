@@ -12,6 +12,7 @@ use CMText\RichContent\Messages\TemplateMessage;
 use CMText\RichContent\Templates\Whatsapp\ComponentBody;
 use CMText\RichContent\Templates\Whatsapp\ComponentButtonUrl;
 use CMText\RichContent\Templates\Whatsapp\ComponentFooter;
+use CMText\RichContent\Templates\Whatsapp\ComponentHeader;
 use CMText\RichContent\Templates\Whatsapp\ComponentParameterText;
 use CMText\RichContent\Templates\Whatsapp\Language;
 use CMText\RichContent\Templates\Whatsapp\WhatsappTemplate;
@@ -66,6 +67,10 @@ class CmComSmsWhatsAppChannel
         } else if ($notification_message instanceof CmComWhatsAppMessageTemplateType) {
             $template = new WhatsappTemplate($notification_message->namespace, $notification_message->templateId, new Language($notification_message->languageCode));
             $components = [];
+            if ($notification_message->hasHeaderImage()) {
+                $image = $notification_message->parameters->getHeaderImage();
+                $components[] = new ComponentHeader($image);
+            }
             if ($notification_message->hasBodyParameters()) {
                 $components[] = new ComponentBody($notification_message->parameters->getBody());
             }

@@ -3,7 +3,9 @@
 namespace NotificationChannels\CmComSmsWhatsApp\Types;
 
 use CMText\Channels;
+use CMText\RichContent\Messages\MediaContent;
 use CMText\RichContent\Templates\Whatsapp\ComponentParameterBase;
+use CMText\RichContent\Templates\Whatsapp\ComponentParameterImage;
 use NotificationChannels\CmComSmsWhatsApp\Interfaces\SendableMessageInterface;
 use NotificationChannels\CmComSmsWhatsApp\Types\Subtypes\TemplateMessageParameterSubtype;
 use NotificationChannels\CmComSmsWhatsApp\Types\Subtypes\WhatsAppTemplateParameters;
@@ -90,6 +92,14 @@ class CmComWhatsAppMessageTemplateType extends PlainTextMessageType implements S
         $this->parameters->addCtaParameter($cta);
     }
 
+    public function addHeaderImage(string $url, string $name, string $mimeType): void
+    {
+        $this->setUpParameters();
+        $this->parameters->setHeaderImage(new ComponentParameterImage(
+            new MediaContent($name, $url, $mimeType)
+        ));
+    }
+
     public function hasBodyParameters(): bool
     {
         return !is_null($this->parameters) && is_array($this->parameters->getBody()) && count($this->parameters->getBody()) > 0;
@@ -98,6 +108,11 @@ class CmComWhatsAppMessageTemplateType extends PlainTextMessageType implements S
     public function hasCtasParameters(): bool
     {
         return !is_null($this->parameters) && is_array($this->parameters->getCtas()) && count($this->parameters->getBody()) > 0;
+    }
+
+    public function hasHeaderImage(): bool
+    {
+        return !is_null($this->parameters) && !is_null($this->parameters->getHeaderImage());
     }
 
     public function setBodyParameters(array $parameters): void

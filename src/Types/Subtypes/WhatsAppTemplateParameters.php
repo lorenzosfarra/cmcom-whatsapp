@@ -3,6 +3,7 @@
 namespace NotificationChannels\CmComSmsWhatsApp\Types\Subtypes;
 
 use CMText\RichContent\Templates\Whatsapp\ComponentParameterBase;
+use CMText\RichContent\Templates\Whatsapp\ComponentParameterImage;
 
 class WhatsAppTemplateParameters
 {
@@ -16,14 +17,18 @@ class WhatsAppTemplateParameters
      */
     private ?array $body;
 
+    private ?ComponentParameterImage $headerImage;
+
     /**
      * @param ComponentParameterBase[]|null $body
      * @param string[]|null $ctas
+     * @param ComponentParameterImage|null $header_image
      */
-    public function __construct(?array $body = null, ?array $ctas = null)
+    public function __construct(?array $body = null, ?array $ctas = null, ?ComponentParameterImage $header_image = null)
     {
         $this->body = $body;
         $this->ctas = $ctas;
+        $this->headerImage = $header_image;
     }
 
     /**
@@ -66,5 +71,21 @@ class WhatsAppTemplateParameters
     public function setBody(?array $body): void
     {
         $this->body = $body;
+    }
+
+    /**
+     * @return ComponentParameterImage|null
+     */
+    public function getHeaderImage(): ?ComponentParameterImage
+    {
+        return $this->headerImage;
+    }
+
+    /**
+     * @param ComponentParameterImage|null $headerImage
+     */
+    public function setHeaderImage(?ComponentParameterImage $headerImage): void
+    {
+        $this->headerImage = $headerImage;
     }
 }
